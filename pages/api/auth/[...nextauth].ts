@@ -2,7 +2,7 @@ import NextAuth from "next-auth/next";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
 
-import prismabd from "@/lib/prismadb";
+import prismadb from "@/lib/prismadb";
 export default NextAuth({
   providers: [
     Credentials({
@@ -35,7 +35,7 @@ export default NextAuth({
 
         const isCorrectPassword = await compare(
           credentials.password,
-          user.hashedPassword
+          user.hashedPassword!
         );
         if (!isCorrectPassword) {
           throw new Error("Password is incorrect");

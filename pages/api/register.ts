@@ -6,12 +6,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "POST") {
-    return res.status(405).end(); // Method Not Allowed
-  }
   try {
     const { email, name, password } = req.body;
 
+    if (req.method !== "POST") {
+      return res.status(405).end(); // Method Not Allowed
+    }
     const existingUser = await prismadb.user.findUnique({
       where: {
         email,
