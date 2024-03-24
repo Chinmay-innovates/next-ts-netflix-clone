@@ -4,6 +4,8 @@ import Image from "next/image";
 import { use, useCallback, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 const Auth = () => {
   const router = useRouter();
@@ -14,25 +16,13 @@ const Auth = () => {
 
   const [variant, setVariant] = useState("login");
 
-  // /---------------------------------------------/ //
+  // /-------------------- toggleVariant -------------------/ //
   const toggleVariant = useCallback(() => {
     setVariant((currentVariant) =>
       currentVariant === "login" ? "register" : "login"
     );
   }, []);
-  // /---------------------------------------------/ //
-  const register = useCallback(async () => {
-    try {
-      await axios.post("api/register", {
-        email,
-        name,
-        password,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, [email, name, password]);
-  // /---------------------------------------------/ //
+  // /-------------------- login -------------------------/ //
   const login = useCallback(async () => {
     try {
       await signIn("credentials", {
@@ -46,7 +36,21 @@ const Auth = () => {
       console.log(error);
     }
   }, [email, password, router]);
+  // /----------------- register --------------------------/ //
+  const register = useCallback(async () => {
+    try {
+      await axios.post("api/register", {
+        email,
+        name,
+        password,
+      });
+      login(); // we can login after registration
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, name, password, login]);
   // /---------------------------------------------/ //
+
   return (
     <div className="absolute h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
       <div className='bg-black  w-full h-full lg:bg-opacity-50'>
@@ -93,6 +97,30 @@ const Auth = () => {
             >
               {variant === "login" ? "Login" : "Sign up"}
             </button>
+            <div className='flex flex-grow items-center mt-8 gap-4 justify-center'>
+              {/* GOOGLE ICON */}
+              <div className='icons'>
+                <FcGoogle
+                  size={30}
+                  onClick={() =>
+                    signIn("google", {
+                      callbackUrl: "/",
+                    })
+                  }
+                />
+              </div>
+              {/* GITHUB ICON */}
+              <div
+                className='icons'
+                onClick={() =>
+                  signIn("github", {
+                    callbackUrl: "/",
+                  })
+                }
+              >
+                <FaGithub size={30} />
+              </div>
+            </div>
             <p className='text-neutral-500 mt-12 '>
               {variant === "login"
                 ? "First time using Netflix?"
