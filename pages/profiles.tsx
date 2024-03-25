@@ -1,5 +1,5 @@
-import { NextPageContext } from "next";
-import { getSession, useSession } from "next-auth/react";
+import { NextPageContext, InferGetServerSidePropsType } from "next";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 
