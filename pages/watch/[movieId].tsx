@@ -3,9 +3,13 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import useMovie from "@/hooks/useMovie";
 
-const Watch = (props) => {
+const Watch = (props: any) => {
   const router = useRouter();
   const { movieId } = router.query;
+
+
+
+  
 
   const { data } = useMovie(movieId as string);
 
